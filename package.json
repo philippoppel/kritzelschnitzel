@@ -1,0 +1,41 @@
+{
+  "name": "kritzelkomplott",
+  "version": "1.0.0",
+  "description": "Ein Gesellschaftsspiel für Mobile Safari - Finde den Schwindler beim Zeichnen!",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "python3 -m http.server 3000 --directory .",
+    "serve": "python3 -m http.server 8080 --directory .",
+    "dev": "python3 -m http.server 3000 --directory .",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "spiel",
+    "gesellschaftsspiel",
+    "mobile",
+    "safari",
+    "zeichnen",
+    "party-game",
+    "html5",
+    "javascript"
+  ],
+  "author": "Philippe Oppel",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philippoppel/kritzelschnitzel"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "iOS >= 12",
+    "Safari >= 12"
+  ],
+  "devDependencies": {
+    "vite": "^7.1.2"
+  }
+}

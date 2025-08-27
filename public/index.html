@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Kritzelkomplott</title>
+  <link rel="stylesheet" href="../src/css/styles.css">
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🎨 Kritzelkomplott</h1>
+    <p class="subtitle">Der Schwindler zeichnet mit!</p>
+  </div>
+
+  <div class="game-area">
+    <!-- Setup Screen -->
+    <div class="screen active" id="setupScreen">
+      <div class="player-setup">
+        <h2>Spieler (3-8)</h2>
+        <div class="add-player-form">
+          <input type="text" id="playerNameInput" placeholder="Name eingeben..." maxlength="12">
+          <button class="btn btn-small" onclick="addPlayer()">+</button>
+        </div>
+        <div class="player-list" id="playerList">
+          <span style="color: #999;">Noch keine Spieler</span>
+        </div>
+      </div>
+
+      <div class="word-categories">
+        <h2>Kategorie wählen</h2>
+        <div class="category-grid">
+          <div class="category-btn" onclick="selectCategory('Tiere')">🐾 Tiere</div>
+          <div class="category-btn" onclick="selectCategory('Essen')">🍕 Essen</div>
+          <div class="category-btn" onclick="selectCategory('Objekte')">🎸 Objekte</div>
+          <div class="category-btn" onclick="selectCategory('Orte')">🏖️ Orte</div>
+          <div class="category-btn" onclick="selectCategory('Sport')">⚽ Sport</div>
+          <div class="category-btn" onclick="selectCategory('Märchen')">🏰 Märchen</div>
+        </div>
+      </div>
+
+      <button class="btn" id="startBtn" onclick="startGame()" disabled>Spiel starten</button>
+    </div>
+
+    <!-- Pass Device Screen -->
+    <div class="screen" id="passDeviceScreen">
+      <div class="pass-device">
+        <div class="pass-device-icon">📱</div>
+        <h2>Gerät weitergeben an:</h2>
+        <div class="player-name-display" id="nextPlayerName"></div>
+      </div>
+      <button class="btn" onclick="confirmPlayer()">Ja, ich bin's!</button>
+    </div>
+
+    <!-- Role Screen -->
+    <div class="screen" id="roleScreen">
+      <div class="role-card">
+        <div class="role-title" id="roleTitle"></div>
+        <div class="secret-word" id="secretInfo"></div>
+        <p id="roleDescription"></p>
+      </div>
+      <button class="btn" onclick="roleUnderstood()">Verstanden! 🤫</button>
+    </div>
+
+    <!-- Drawing Screen -->
+    <div class="screen" id="drawingScreen">
+      <div class="turn-indicator">
+        <div class="current-turn" id="currentTurn"></div>
+        <div class="stroke-counter" id="strokeCounter"></div>
+      </div>
+
+      <div class="drawing-controls">
+        <div class="color-picker">
+          <div class="color-btn selected" style="background: black" onclick="selectColor('black', this)"></div>
+          <div class="color-btn" style="background: red" onclick="selectColor('red', this)"></div>
+          <div class="color-btn" style="background: blue" onclick="selectColor('blue', this)"></div>
+          <div class="color-btn" style="background: green" onclick="selectColor('green', this)"></div>
+          <div class="color-btn" style="background: orange" onclick="selectColor('orange', this)"></div>
+        </div>
+        <button class="btn btn-small btn-secondary" onclick="endTurn()" id="endTurnBtn" disabled>Fertig ✓</button>
+      </div>
+
+      <div class="canvas-container">
+        <canvas id="drawingCanvas"></canvas>
+      </div>
+
+      <div class="instructions">
+        <strong>Regel:</strong> Ein Strich pro Person - nicht absetzen!
+      </div>
+    </div>
+
+    <!-- Voting Screen -->
+    <div class="screen" id="votingScreen">
+      <h2 style="color: #ff6b6b; text-align: center;">Diskussion 💬</h2>
+
+      <div class="canvas-container">
+        <canvas id="votingCanvas"></canvas>
+      </div>
+
+      <div class="instructions">
+        <strong>Diskutiert:</strong> Wer könnte der Schwindler sein?
+      </div>
+
+      <button class="btn" onclick="startVotingProcess()">Geheime Abstimmung starten</button>
+    </div>
+
+    <!-- Pass Device for Voting Screen -->
+    <div class="screen" id="passVotingScreen">
+      <div class="pass-device">
+        <div class="pass-device-icon">🗳️</div>
+        <h2>Geheime Abstimmung</h2>
+        <div class="player-name-display" id="votingPlayerName"></div>
+        <p style="margin: 15px 0;">Wähle den Schwindler:</p>
+      </div>
+      
+      <div class="voting-grid" id="votingGrid"></div>
+      
+      <div id="voteConfirmation" style="display: none; text-align: center; margin: 15px 0;">
+        <p>Du hast für <strong id="selectedPlayer"></strong> gestimmt</p>
+        <button class="btn" onclick="confirmVote()">Bestätigen & Weitergeben</button>
+      </div>
+    </div>
+
+    <!-- Vote Results Screen -->
+    <div class="screen" id="voteResultsScreen">
+      <h2 style="color: #ff6b6b; text-align: center;">Abstimmung beendet! 🗳️</h2>
+      
+      <div id="voteStatus" style="text-align: center; margin: 15px 0; font-weight: bold;"></div>
+
+      <button class="btn" onclick="revealResult()">Ergebnis zeigen</button>
+    </div>
+
+    <!-- Reveal Screen -->
+    <div class="screen" id="revealScreen">
+      <h2 class="result-title" id="resultTitle"></h2>
+      <p id="resultMessage" style="text-align: center; margin: 15px 0;"></p>
+
+      <div id="finalGuess" style="display: none; text-align: center; margin: 20px 0;">
+        <h3>Letzte Chance! 🎯</h3>
+        <p>Der Schwindler kann noch gewinnen:</p>
+        <input type="text" id="guessInput" placeholder="Was wurde gezeichnet?" style="margin: 10px 0;">
+        <button class="btn btn-small" onclick="checkFinalGuess()">Raten!</button>
+      </div>
+
+      <div id="finalResult" style="display: none; text-align: center;">
+        <h3 id="finalResultTitle"></h3>
+        <p id="finalResultMessage" style="font-size: 1.3em; margin: 15px 0;"></p>
+      </div>
+
+      <button class="btn" onclick="resetGame()" style="margin-top: 20px;">Neue Runde</button>
+    </div>
+  </div>
+</div>
+
+<script src="../src/js/game.js"></script>
+<script src="../src/js/drawing.js"></script>
+<script src="../src/js/voting.js"></script>
+<script src="../src/js/app.js"></script>
+</body>
+</html>
