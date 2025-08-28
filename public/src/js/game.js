@@ -313,10 +313,15 @@ class Game {
     document.querySelectorAll('.category-btn').forEach(btn => {
       btn.classList.remove('selected');
     });
-    document.getElementById('finalGuess').style.display = 'none';
-    document.getElementById('finalResult').style.display = 'none';
-    document.getElementById('guessInput').value = '';
-    document.getElementById('revealBtn').style.display = 'none';
+    const finalGuess = document.getElementById('finalGuess');
+    const finalResult = document.getElementById('finalResult');
+    const guessInput = document.getElementById('guessInput');
+    const revealBtn = document.getElementById('revealBtn');
+    
+    if (finalGuess) finalGuess.style.display = 'none';
+    if (finalResult) finalResult.style.display = 'none';
+    if (guessInput) guessInput.value = '';
+    if (revealBtn) revealBtn.style.display = 'none';
 
     if (voting) {
       voting.reset();
