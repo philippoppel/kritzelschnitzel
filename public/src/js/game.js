@@ -249,58 +249,31 @@ class Game {
       voteCounts[vote] = (voteCounts[vote] || 0) + 1;
     }
 
-    // Find all players with the maximum votes (handle ties)
+    let mostVoted = -1;
     let maxVotes = 0;
-    let mostVotedPlayers = [];
-    
     for (let [player, count] of Object.entries(voteCounts)) {
       if (count > maxVotes) {
         maxVotes = count;
-        mostVotedPlayers = [parseInt(player)];
-      } else if (count === maxVotes) {
-        mostVotedPlayers.push(parseInt(player));
+        mostVoted = parseInt(player);
       }
     }
 
     const resultTitle = document.getElementById('resultTitle');
     const resultMessage = document.getElementById('resultMessage');
 
-    // Check if there's a tie
-    if (mostVotedPlayers.length > 1) {
-      const tiedNames = mostVotedPlayers.map(i => this.players[i]).join(', ');
-      
-      if (mostVotedPlayers.includes(this.fakeArtistIndex)) {
-        // Fake artist is among the tied players - they still get a chance to guess
-        resultTitle.textContent = '🤝 Unentschieden!';
-        resultTitle.className = 'result-title';
-        resultMessage.textContent = `Gleichstand zwischen: ${tiedNames}. Der Schwindler ${this.players[this.fakeArtistIndex]} bekommt eine Chance!`;
-        document.getElementById('finalGuess').style.display = 'block';
-      } else {
-        // Fake artist not in tie - they win automatically
-        resultTitle.textContent = '😈 Schwindler gewinnt!';
-        resultTitle.className = 'result-title failure';
-        resultMessage.textContent = `Unentschieden zwischen: ${tiedNames}. Der Schwindler ${this.players[this.fakeArtistIndex]} nutzt die Verwirrung!`;
-        document.getElementById('finalResult').style.display = 'block';
-        document.getElementById('finalResultTitle').textContent = 'Das Wort war:';
-        document.getElementById('finalResultMessage').textContent = this.secretWord;
-      }
+    if (mostVoted === this.fakeArtistIndex) {
+      resultTitle.textContent = '🎯 Schwindler enttarnt!';
+      resultTitle.className = 'result-title success';
+      resultMessage.textContent = `${this.players[this.fakeArtistIndex]} war der Schwindler!`;
+
+      document.getElementById('finalGuess').style.display = 'block';
     } else {
-      // Clear winner
-      const mostVoted = mostVotedPlayers[0];
-      
-      if (mostVoted === this.fakeArtistIndex) {
-        resultTitle.textContent = '🎯 Schwindler enttarnt!';
-        resultTitle.className = 'result-title success';
-        resultMessage.textContent = `${this.players[this.fakeArtistIndex]} war der Schwindler!`;
-        document.getElementById('finalGuess').style.display = 'block';
-      } else {
-        resultTitle.textContent = '😈 Schwindler gewinnt!';
-        resultTitle.className = 'result-title failure';
-        resultMessage.textContent = `Falsch! ${this.players[mostVoted]} war unschuldig. ${this.players[this.fakeArtistIndex]} war der Schwindler!`;
-        document.getElementById('finalResult').style.display = 'block';
-        document.getElementById('finalResultTitle').textContent = 'Das Wort war:';
-        document.getElementById('finalResultMessage').textContent = this.secretWord;
-      }
+      resultTitle.textContent = '😈 Schwindler gewinnt!';
+      resultTitle.className = 'result-title failure';
+      resultMessage.textContent = `Falsch! ${this.players[this.fakeArtistIndex]} war der Schwindler!`;
+      document.getElementById('finalResult').style.display = 'block';
+      document.getElementById('finalResultTitle').textContent = 'Das Wort war:';
+      document.getElementById('finalResultMessage').textContent = this.secretWord;
     }
   }
 
@@ -337,55 +310,18 @@ class Game {
     this.isDrawing = false;
     this.hasDrawnThisTurn = false;
 
-    // Reset all UI elements
     document.querySelectorAll('.category-btn').forEach(btn => {
       btn.classList.remove('selected');
     });
-    document.querySelectorAll('.vote-btn').forEach(btn => {
-      btn.classList.remove('voted');
-    });
-    
-    // Reset result screens - check if elements exist first
-    const finalGuess = document.getElementById('finalGuess');
-    const finalResult = document.getElementById('finalResult');
-    const guessInput = document.getElementById('guessInput');
-    const revealBtn = document.getElementById('revealBtn');
-    const voteConfirmation = document.getElementById('voteConfirmation');
-    
-    if (finalGuess) finalGuess.style.display = 'none';
-    if (finalResult) finalResult.style.display = 'none';
-    if (guessInput) guessInput.value = '';
-    if (revealBtn) revealBtn.style.display = 'none';
-    if (voteConfirmation) voteConfirmation.style.display = 'none';
-    
-    // Reset result titles and messages
-    const resultTitle = document.getElementById('resultTitle');
-    const resultMessage = document.getElementById('resultMessage');
-    const finalResultTitle = document.getElementById('finalResultTitle');
-    const finalResultMessage = document.getElementById('finalResultMessage');
-    
-    if (resultTitle) resultTitle.className = 'result-title';
-    if (resultMessage) resultMessage.textContent = '';
-    if (finalResultTitle) {
-      finalResultTitle.textContent = '';
-      finalResultTitle.className = '';
-    }
-    if (finalResultMessage) finalResultMessage.textContent = '';
+    document.getElementById('finalGuess').style.display = 'none';
+    document.getElementById('finalResult').style.display = 'none';
+    document.getElementById('guessInput').value = '';
+    document.getElementById('revealBtn').style.display = 'none';
 
-    // Reset voting system
     if (voting) {
       voting.reset();
     }
 
-    // Clear any canvas content if exists
-    if (this.canvas && this.ctx) {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-    if (this.votingCanvas && this.votingCtx) {
-      this.votingCtx.clearRect(0, 0, this.votingCanvas.width, this.votingCanvas.height);
-    }
-
-    // Reset to setup screen
     this.showScreen('setupScreen');
     this.updatePlayerList();
     this.checkStartButton();

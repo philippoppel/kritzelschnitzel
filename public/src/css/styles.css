@@ -1,0 +1,364 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  /* Prevent iOS Safari bounce scrolling */
+  overscroll-behavior: none;
+  /* Prevent text selection during drawing */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  max-width: 500px;
+  width: 100%;
+  max-height: 95vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.header {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  color: white;
+  padding: 20px 15px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+h1 {
+  font-size: 1.8em;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  opacity: 0.95;
+  font-size: 0.9em;
+}
+
+.game-area {
+  padding: 20px 15px;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+h2 {
+  color: #ff6b6b;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
+
+.player-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+  min-height: 40px;
+}
+
+.player-tag {
+  background: linear-gradient(135deg, #ff6b6b20, #feca5720);
+  padding: 8px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95em;
+  border: 2px solid #ff6b6b30;
+}
+
+.remove-player {
+  background: #ff4444;
+  color: white;
+  border: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.add-player-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #ff6b6b30;
+  border-radius: 12px;
+  font-size: 16px;
+  -webkit-appearance: none;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #ff6b6b;
+}
+
+.btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 14px;
+  width: auto;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.category-btn {
+  padding: 15px 10px;
+  border: 2px solid #ff6b6b30;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.95em;
+}
+
+.category-btn:active {
+  transform: scale(0.95);
+}
+
+.category-btn.selected {
+  border-color: #ff6b6b;
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  color: white;
+}
+
+.pass-device {
+  background: #333;
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.pass-device-icon {
+  font-size: 3em;
+  margin-bottom: 15px;
+}
+
+.player-name-display {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.role-card {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.role-title {
+  font-size: 1.3em;
+  margin-bottom: 10px;
+}
+
+.secret-word {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin: 15px 0;
+  padding: 15px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+
+.canvas-container {
+  border: 3px solid #ff6b6b30;
+  border-radius: 12px;
+  margin: 15px 0;
+  background: white;
+  touch-action: none;
+  /* Prevent iOS Safari from interfering with touch events */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  /* Improve touch responsiveness */
+  -webkit-tap-highlight-color: transparent;
+  /* Prevent zooming on double tap */
+  touch-action: manipulation;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  cursor: crosshair;
+  /* Prevent iOS Safari from interfering with canvas touch */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  /* Ensure crisp rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.drawing-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.color-picker {
+  display: flex;
+  gap: 8px;
+}
+
+.color-btn {
+  width: 35px;
+  height: 35px;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.color-btn.selected {
+  border-color: #333;
+  transform: scale(1.1);
+}
+
+.turn-indicator {
+  background: linear-gradient(135deg, #ff6b6b20, #feca5720);
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 15px;
+  border: 2px solid #ff6b6b30;
+}
+
+.current-turn {
+  font-size: 1.2em;
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.stroke-counter {
+  background: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.instructions {
+  background: #fff8f0;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border-left: 4px solid #feca57;
+  font-size: 0.9em;
+}
+
+.voting-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.vote-btn {
+  padding: 15px;
+  border: 3px solid #ff6b6b30;
+  background: white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.vote-btn.voted {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+  color: white;
+  border-color: #ff6b6b;
+}
+
+.result-title {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.success {
+  color: #4CAF50;
+}
+
+.failure {
+  color: #ff4444;
+}
+
+@media (max-width: 380px) {
+  h1 { font-size: 1.5em; }
+  .category-grid { grid-template-columns: 1fr; }
+  .voting-grid { grid-template-columns: 1fr; }
+  .color-btn { width: 30px; height: 30px; }
+}
