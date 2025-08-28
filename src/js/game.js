@@ -389,5 +389,7 @@ class Game {
     this.showScreen('setupScreen');
     this.updatePlayerList();
     this.checkStartButton();
+    
+    console.log('Reset complete. Players:', this.players.length);
   }
 }
