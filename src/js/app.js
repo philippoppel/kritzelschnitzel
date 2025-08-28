@@ -74,6 +74,16 @@ function confirmVote() {
 function resetGame() {
   game.reset();
   voting.reset();
+  
+  // Return to setup screen
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
+  });
+  document.getElementById('setupScreen').classList.add('active');
+  
+  // Update UI to reflect current state
+  game.updatePlayerList();
+  game.checkStartButton();
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);

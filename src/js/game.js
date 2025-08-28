@@ -322,7 +322,7 @@ class Game {
   }
 
   reset() {
-    this.players = [];
+    // Keep existing players, don't clear the array
     this.currentCategory = '';
     this.secretWord = '';
     this.fakeArtistIndex = -1;
