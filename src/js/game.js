@@ -140,7 +140,7 @@ class Game {
       secretInfo.textContent = `Kategorie / Category: ${this.currentCategory}`;
       roleDesc.textContent = 'Täusche die anderen! / Fool the others!';
     } else {
-      roleTitle.textContent = '✏️ Du bist ein Künstler / You are an Artist';
+      roleTitle.textContent = '✏️ Du bist der Künstler! / You are the Artist!';
       secretInfo.textContent = `${this.secretWord.de} / ${this.secretWord.en}`;
       roleDesc.textContent = 'Zeige dass du es weißt! / Show that you know it!';
     }
