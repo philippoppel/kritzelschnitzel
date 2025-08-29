@@ -36,23 +36,27 @@ class DrawingCanvas {
     let clientX, clientY;
     
     if (e.touches && e.touches.length > 0) {
-      // Use the first touch point
+      // Use the first touch point for touchstart and touchmove
       clientX = e.touches[0].clientX;
       clientY = e.touches[0].clientY;
     } else if (e.changedTouches && e.changedTouches.length > 0) {
-      // For touchend events
+      // For touchend events - use changedTouches
       clientX = e.changedTouches[0].clientX;
       clientY = e.changedTouches[0].clientY;
-    } else {
+    } else if (e.clientX !== undefined && e.clientY !== undefined) {
       // Mouse events
       clientX = e.clientX;
       clientY = e.clientY;
+    } else {
+      // Fallback - return null coordinates
+      return { x: null, y: null };
     }
     
-    return {
-      x: (clientX - rect.left) * scaleX,
-      y: (clientY - rect.top) * scaleY
-    };
+    // Ensure coordinates are within canvas bounds
+    const x = Math.max(0, Math.min((clientX - rect.left) * scaleX, this.game.canvas.width));
+    const y = Math.max(0, Math.min((clientY - rect.top) * scaleY, this.game.canvas.height));
+    
+    return { x, y };
   }
 
   handleStart(e) {
@@ -111,11 +115,13 @@ class DrawingCanvas {
     }
     
     if (this.game.isDrawing) {
-      // Final stroke to the end point
-      const coords = this.getCoordinates(e);
-      if (coords.x && coords.y) {
-        this.game.ctx.lineTo(coords.x, coords.y);
-        this.game.ctx.stroke();
+      // Final stroke to the end point - only if we have a valid event
+      if (e && (e.changedTouches || e.clientX !== undefined)) {
+        const coords = this.getCoordinates(e);
+        if (coords.x !== null && coords.y !== null) {
+          this.game.ctx.lineTo(coords.x, coords.y);
+          this.game.ctx.stroke();
+        }
       }
     }
     
