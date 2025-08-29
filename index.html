@@ -14,46 +14,46 @@
 <div class="container">
   <div class="header">
     <h1>🎨 Kritzelkomplott</h1>
-    <p class="subtitle">Der Schwindler zeichnet mit!</p>
+    <p class="subtitle">Der Schwindler zeichnet mit! / The faker draws along!</p>
   </div>
 
   <div class="game-area">
     <!-- Setup Screen -->
     <div class="screen active" id="setupScreen">
       <div class="player-setup">
-        <h2>Spieler (3-8)</h2>
+        <h2>Spieler / Players (3-8)</h2>
         <div class="add-player-form">
-          <input type="text" id="playerNameInput" placeholder="Name eingeben..." maxlength="12">
+          <input type="text" id="playerNameInput" placeholder="Name eingeben... / Enter name..." maxlength="12">
           <button class="btn btn-small" onclick="addPlayer()">+</button>
         </div>
         <div class="player-list" id="playerList">
-          <span style="color: #999;">Noch keine Spieler</span>
+          <span style="color: #999;">Noch keine Spieler / No players yet</span>
         </div>
       </div>
 
       <div class="word-categories">
-        <h2>Kategorie wählen</h2>
+        <h2>Kategorie wählen / Choose Category</h2>
         <div class="category-grid">
-          <div class="category-btn" onclick="selectCategory('Tiere')">🐾 Tiere</div>
-          <div class="category-btn" onclick="selectCategory('Essen')">🍕 Essen</div>
-          <div class="category-btn" onclick="selectCategory('Objekte')">🎸 Objekte</div>
-          <div class="category-btn" onclick="selectCategory('Orte')">🏖️ Orte</div>
-          <div class="category-btn" onclick="selectCategory('Sport')">⚽ Sport</div>
-          <div class="category-btn" onclick="selectCategory('Märchen')">🏰 Märchen</div>
+          <div class="category-btn" onclick="selectCategory('Tiere')">🐾 Tiere / Animals</div>
+          <div class="category-btn" onclick="selectCategory('Essen')">🍕 Essen / Food</div>
+          <div class="category-btn" onclick="selectCategory('Objekte')">🎸 Objekte / Objects</div>
+          <div class="category-btn" onclick="selectCategory('Orte')">🏖️ Orte / Places</div>
+          <div class="category-btn" onclick="selectCategory('Sport')">⚽ Sport / Sports</div>
+          <div class="category-btn" onclick="selectCategory('Märchen')">🏰 Märchen / Fairy Tales</div>
         </div>
       </div>
 
-      <button class="btn" id="startBtn" onclick="startGame()" disabled>Spiel starten</button>
+      <button class="btn" id="startBtn" onclick="startGame()" disabled>Spiel starten / Start Game</button>
     </div>
 
     <!-- Pass Device Screen -->
     <div class="screen" id="passDeviceScreen">
       <div class="pass-device">
         <div class="pass-device-icon">📱</div>
-        <h2>Gerät weitergeben an:</h2>
+        <h2>Gerät weitergeben an: / Pass device to:</h2>
         <div class="player-name-display" id="nextPlayerName"></div>
       </div>
-      <button class="btn" onclick="confirmPlayer()">Ja, ich bin's!</button>
+      <button class="btn" onclick="confirmPlayer()">Ja, ich bin's! / Yes, that's me!</button>
     </div>
 
     <!-- Role Screen -->
@@ -63,7 +63,7 @@
         <div class="secret-word" id="secretInfo"></div>
         <p id="roleDescription"></p>
       </div>
-      <button class="btn" onclick="roleUnderstood()">Verstanden! 🤫</button>
+      <button class="btn" onclick="roleUnderstood()">Verstanden! 🤫 / Got it! 🤫</button>
     </div>
 
     <!-- Drawing Screen -->
@@ -81,7 +81,7 @@
           <div class="color-btn" style="background: green" onclick="selectColor('green', this)"></div>
           <div class="color-btn" style="background: orange" onclick="selectColor('orange', this)"></div>
         </div>
-        <button class="btn btn-small btn-secondary" onclick="endTurn()" id="endTurnBtn" disabled>Fertig ✓</button>
+        <button class="btn btn-small btn-secondary" onclick="endTurn()" id="endTurnBtn" disabled>Fertig ✓ / Done ✓</button>
       </div>
 
       <div class="canvas-container">
@@ -89,49 +89,49 @@
       </div>
 
       <div class="instructions">
-        <strong>Regel:</strong> Ein Strich pro Person - nicht absetzen!
+        <strong>Regel / Rule:</strong> Ein Strich pro Person - nicht absetzen! / One stroke per person - don't lift the pen!
       </div>
     </div>
 
     <!-- Voting Screen -->
     <div class="screen" id="votingScreen">
-      <h2 style="color: #ff6b6b; text-align: center;">Diskussion 💬</h2>
+      <h2 style="color: #ff6b6b; text-align: center;">Diskussion 💬 / Discussion 💬</h2>
 
       <div class="canvas-container">
         <canvas id="votingCanvas"></canvas>
       </div>
 
       <div class="instructions">
-        <strong>Diskutiert:</strong> Wer könnte der Schwindler sein?
+        <strong>Diskutiert / Discuss:</strong> Wer könnte der Schwindler sein? / Who could be the faker?
       </div>
 
-      <button class="btn" onclick="startVotingProcess()">Geheime Abstimmung starten</button>
+      <button class="btn" onclick="startVotingProcess()">Geheime Abstimmung starten / Start Secret Voting</button>
     </div>
 
     <!-- Pass Device for Voting Screen -->
     <div class="screen" id="passVotingScreen">
       <div class="pass-device">
         <div class="pass-device-icon">🗳️</div>
-        <h2>Geheime Abstimmung</h2>
+        <h2>Geheime Abstimmung / Secret Voting</h2>
         <div class="player-name-display" id="votingPlayerName"></div>
-        <p style="margin: 15px 0;">Wähle den Schwindler:</p>
+        <p style="margin: 15px 0;">Wähle den Schwindler: / Choose the faker:</p>
       </div>
       
       <div class="voting-grid" id="votingGrid"></div>
       
       <div id="voteConfirmation" style="display: none; text-align: center; margin: 15px 0;">
-        <p>Du hast für <strong id="selectedPlayer"></strong> gestimmt</p>
-        <button class="btn" onclick="confirmVote()">Bestätigen & Weitergeben</button>
+        <p>Du hast für <strong id="selectedPlayer"></strong> gestimmt / You voted for <strong id="selectedPlayer"></strong></p>
+        <button class="btn" onclick="confirmVote()">Bestätigen & Weitergeben / Confirm & Pass On</button>
       </div>
     </div>
 
     <!-- Vote Results Screen -->
     <div class="screen" id="voteResultsScreen">
-      <h2 style="color: #ff6b6b; text-align: center;">Abstimmung beendet! 🗳️</h2>
+      <h2 style="color: #ff6b6b; text-align: center;">Abstimmung beendet! 🗳️ / Voting Complete! 🗳️</h2>
       
       <div id="voteStatus" style="text-align: center; margin: 15px 0; font-weight: bold;"></div>
 
-      <button class="btn" onclick="revealResult()">Ergebnis zeigen</button>
+      <button class="btn" onclick="revealResult()">Ergebnis zeigen / Show Result</button>
     </div>
 
     <!-- Reveal Screen -->
@@ -140,10 +140,10 @@
       <p id="resultMessage" style="text-align: center; margin: 15px 0;"></p>
 
       <div id="finalGuess" style="display: none; text-align: center; margin: 20px 0;">
-        <h3>Letzte Chance! 🎯</h3>
-        <p>Der Schwindler kann noch gewinnen:</p>
-        <input type="text" id="guessInput" placeholder="Was wurde gezeichnet?" style="margin: 10px 0;">
-        <button class="btn btn-small" onclick="checkFinalGuess()">Raten!</button>
+        <h3>Letzte Chance! 🎯 / Last Chance! 🎯</h3>
+        <p>Der Schwindler kann noch gewinnen: / The faker can still win:</p>
+        <input type="text" id="guessInput" placeholder="Was wurde gezeichnet? / What was drawn?" style="margin: 10px 0;">
+        <button class="btn btn-small" onclick="checkFinalGuess()">Raten! / Guess!</button>
       </div>
 
       <div id="finalResult" style="display: none; text-align: center;">
@@ -151,7 +151,7 @@
         <p id="finalResultMessage" style="font-size: 1.3em; margin: 15px 0;"></p>
       </div>
 
-      <button class="btn" onclick="resetGame()" style="margin-top: 20px;">Neue Runde</button>
+      <button class="btn" onclick="resetGame()" style="margin-top: 20px;">Neue Runde / New Round</button>
     </div>
   </div>
 </div>
