@@ -20,12 +20,36 @@ class Game {
     this.votingCtx = null;
 
     this.words = {
-      'Tiere': ['Katze', 'Elefant', 'Pinguin', 'Giraffe', 'Schmetterling', 'Hai', 'Spinne', 'Löwe'],
-      'Essen': ['Pizza', 'Banane', 'Hamburger', 'Eis', 'Sushi', 'Apfel', 'Nudeln', 'Donut'],
-      'Objekte': ['Gitarre', 'Fahrrad', 'Brille', 'Uhr', 'Schlüssel', 'Handy', 'Lampe', 'Stuhl'],
-      'Orte': ['Strand', 'Berg', 'Schule', 'Flughafen', 'Kirche', 'Spielplatz', 'Bahnhof', 'Wald'],
-      'Sport': ['Fußball', 'Tennis', 'Schwimmen', 'Basketball', 'Ski', 'Boxen', 'Golf', 'Tanzen'],
-      'Märchen': ['Drache', 'Prinzessin', 'Schloss', 'Zauberstab', 'Hexe', 'Ritter', 'Einhorn', 'Krone']
+      'Tiere': [
+        {de: 'Katze', en: 'Cat'}, {de: 'Elefant', en: 'Elephant'}, {de: 'Pinguin', en: 'Penguin'}, 
+        {de: 'Giraffe', en: 'Giraffe'}, {de: 'Schmetterling', en: 'Butterfly'}, {de: 'Hai', en: 'Shark'}, 
+        {de: 'Spinne', en: 'Spider'}, {de: 'Löwe', en: 'Lion'}
+      ],
+      'Essen': [
+        {de: 'Pizza', en: 'Pizza'}, {de: 'Banane', en: 'Banana'}, {de: 'Hamburger', en: 'Hamburger'}, 
+        {de: 'Eis', en: 'Ice Cream'}, {de: 'Sushi', en: 'Sushi'}, {de: 'Apfel', en: 'Apple'}, 
+        {de: 'Nudeln', en: 'Noodles'}, {de: 'Donut', en: 'Donut'}
+      ],
+      'Objekte': [
+        {de: 'Gitarre', en: 'Guitar'}, {de: 'Fahrrad', en: 'Bicycle'}, {de: 'Brille', en: 'Glasses'}, 
+        {de: 'Uhr', en: 'Clock'}, {de: 'Schlüssel', en: 'Key'}, {de: 'Handy', en: 'Phone'}, 
+        {de: 'Lampe', en: 'Lamp'}, {de: 'Stuhl', en: 'Chair'}
+      ],
+      'Orte': [
+        {de: 'Strand', en: 'Beach'}, {de: 'Berg', en: 'Mountain'}, {de: 'Schule', en: 'School'}, 
+        {de: 'Flughafen', en: 'Airport'}, {de: 'Kirche', en: 'Church'}, {de: 'Spielplatz', en: 'Playground'}, 
+        {de: 'Bahnhof', en: 'Train Station'}, {de: 'Wald', en: 'Forest'}
+      ],
+      'Sport': [
+        {de: 'Fußball', en: 'Soccer'}, {de: 'Tennis', en: 'Tennis'}, {de: 'Schwimmen', en: 'Swimming'}, 
+        {de: 'Basketball', en: 'Basketball'}, {de: 'Ski', en: 'Skiing'}, {de: 'Boxen', en: 'Boxing'}, 
+        {de: 'Golf', en: 'Golf'}, {de: 'Tanzen', en: 'Dancing'}
+      ],
+      'Märchen': [
+        {de: 'Drache', en: 'Dragon'}, {de: 'Prinzessin', en: 'Princess'}, {de: 'Schloss', en: 'Castle'}, 
+        {de: 'Zauberstab', en: 'Magic Wand'}, {de: 'Hexe', en: 'Witch'}, {de: 'Ritter', en: 'Knight'}, 
+        {de: 'Einhorn', en: 'Unicorn'}, {de: 'Krone', en: 'Crown'}
+      ]
     };
   }
 
@@ -37,7 +61,7 @@ class Game {
   addPlayer(name) {
     if (name && this.players.length < 8) {
       if (this.players.includes(name)) {
-        alert('Name existiert bereits!');
+        alert('Name existiert bereits! / Name already exists!');
         return false;
       }
       this.players.push(name);
@@ -55,7 +79,7 @@ class Game {
   updatePlayerList() {
     const list = document.getElementById('playerList');
     if (this.players.length === 0) {
-      list.innerHTML = '<span style="color: #999;">Noch keine Spieler</span>';
+      list.innerHTML = '<span style="color: #999;">Noch keine Spieler / No players yet</span>';
     } else {
       list.innerHTML = this.players.map((p, i) => `
         <div class="player-tag">
@@ -82,13 +106,13 @@ class Game {
     const startBtn = document.getElementById('startBtn');
     if (this.players.length >= 3 && this.currentCategory) {
       startBtn.disabled = false;
-      startBtn.textContent = '🎮 Los geht\'s!';
+      startBtn.textContent = '🎮 Los geht\'s! / Let\'s go!';
     } else {
       startBtn.disabled = true;
       if (this.players.length < 3) {
-        startBtn.textContent = `Noch ${3 - this.players.length} Spieler fehlen`;
+        startBtn.textContent = `Noch ${3 - this.players.length} Spieler fehlen / Need ${3 - this.players.length} more players`;
       } else {
-        startBtn.textContent = 'Kategorie wählen';
+        startBtn.textContent = 'Kategorie wählen / Choose category';
       }
     }
   }
@@ -112,13 +136,13 @@ class Game {
     const roleDesc = document.getElementById('roleDescription');
 
     if (this.currentPlayerIndex === this.fakeArtistIndex) {
-      roleTitle.textContent = '🎭 Du bist der SCHWINDLER!';
-      secretInfo.textContent = `Kategorie: ${this.currentCategory}`;
-      roleDesc.textContent = 'Täusche die anderen!';
+      roleTitle.textContent = '🎭 Du bist der SCHWINDLER! / You are the FAKER!';
+      secretInfo.textContent = `Kategorie / Category: ${this.currentCategory}`;
+      roleDesc.textContent = 'Täusche die anderen! / Fool the others!';
     } else {
-      roleTitle.textContent = '✏️ Du bist Künstler';
-      secretInfo.textContent = this.secretWord;
-      roleDesc.textContent = 'Zeige dass du es weißt!';
+      roleTitle.textContent = '✏️ Du bist Künstler / You are an Artist';
+      secretInfo.textContent = `${this.secretWord.de} / ${this.secretWord.en}`;
+      roleDesc.textContent = 'Zeige dass du es weißt! / Show that you know it!';
     }
 
     this.showScreen('roleScreen');
@@ -175,8 +199,8 @@ class Game {
   }
 
   updateTurnIndicator() {
-    document.getElementById('currentTurn').textContent = `${this.players[this.currentTurnPlayer]} zeichnet`;
-    document.getElementById('strokeCounter').textContent = `Runde ${this.round} • Strich ${this.strokeCount + 1}/${this.maxStrokes}`;
+    document.getElementById('currentTurn').textContent = `${this.players[this.currentTurnPlayer]} zeichnet / is drawing`;
+    document.getElementById('strokeCounter').textContent = `Runde / Round ${this.round} • Strich / Stroke ${this.strokeCount + 1}/${this.maxStrokes}`;
   }
 
   selectColor(color, element) {
@@ -193,7 +217,7 @@ class Game {
 
   endTurn() {
     if (!this.hasDrawnThisTurn) {
-      alert('Du musst erst zeichnen!');
+      alert('Du musst erst zeichnen! / You must draw first!');
       return;
     }
 
@@ -238,7 +262,7 @@ class Game {
   }
 
   updateVoteStatus() {
-    document.getElementById('voteStatus').textContent = `${this.voteCount} von ${this.players.length} Stimmen abgegeben`;
+    document.getElementById('voteStatus').textContent = `${this.voteCount} von / of ${this.players.length} Stimmen abgegeben / votes cast`;
   }
 
   revealResult() {
@@ -249,31 +273,58 @@ class Game {
       voteCounts[vote] = (voteCounts[vote] || 0) + 1;
     }
 
-    let mostVoted = -1;
+    // Find all players with the maximum votes (handle ties)
     let maxVotes = 0;
+    let mostVotedPlayers = [];
+    
     for (let [player, count] of Object.entries(voteCounts)) {
       if (count > maxVotes) {
         maxVotes = count;
-        mostVoted = parseInt(player);
+        mostVotedPlayers = [parseInt(player)];
+      } else if (count === maxVotes) {
+        mostVotedPlayers.push(parseInt(player));
       }
     }
 
     const resultTitle = document.getElementById('resultTitle');
     const resultMessage = document.getElementById('resultMessage');
 
-    if (mostVoted === this.fakeArtistIndex) {
-      resultTitle.textContent = '🎯 Schwindler enttarnt!';
-      resultTitle.className = 'result-title success';
-      resultMessage.textContent = `${this.players[this.fakeArtistIndex]} war der Schwindler!`;
-
-      document.getElementById('finalGuess').style.display = 'block';
+    // Check if there's a tie
+    if (mostVotedPlayers.length > 1) {
+      const tiedNames = mostVotedPlayers.map(i => this.players[i]).join(', ');
+      
+      if (mostVotedPlayers.includes(this.fakeArtistIndex)) {
+        // Fake artist is among the tied players - they still get a chance to guess
+        resultTitle.textContent = '🤝 Unentschieden! / It\'s a Tie!';
+        resultTitle.className = 'result-title';
+        resultMessage.textContent = `Gleichstand zwischen / Tie between: ${tiedNames}. Der Schwindler / The faker ${this.players[this.fakeArtistIndex]} bekommt eine Chance! / gets a chance!`;
+        document.getElementById('finalGuess').style.display = 'block';
+      } else {
+        // Fake artist not in tie - they win automatically
+        resultTitle.textContent = '😈 Schwindler gewinnt! / Faker Wins!';
+        resultTitle.className = 'result-title failure';
+        resultMessage.textContent = `Unentschieden zwischen / Tie between: ${tiedNames}. Der Schwindler / The faker ${this.players[this.fakeArtistIndex]} nutzt die Verwirrung! / takes advantage of the confusion!`;
+        document.getElementById('finalResult').style.display = 'block';
+        document.getElementById('finalResultTitle').textContent = 'Das Wort war: / The word was:';
+        document.getElementById('finalResultMessage').textContent = `${this.secretWord.de} / ${this.secretWord.en}`;
+      }
     } else {
-      resultTitle.textContent = '😈 Schwindler gewinnt!';
-      resultTitle.className = 'result-title failure';
-      resultMessage.textContent = `Falsch! ${this.players[this.fakeArtistIndex]} war der Schwindler!`;
-      document.getElementById('finalResult').style.display = 'block';
-      document.getElementById('finalResultTitle').textContent = 'Das Wort war:';
-      document.getElementById('finalResultMessage').textContent = this.secretWord;
+      // Clear winner
+      const mostVoted = mostVotedPlayers[0];
+      
+      if (mostVoted === this.fakeArtistIndex) {
+        resultTitle.textContent = '🎯 Schwindler enttarnt! / Faker Caught!';
+        resultTitle.className = 'result-title success';
+        resultMessage.textContent = `${this.players[this.fakeArtistIndex]} war der Schwindler! / was the faker!`;
+        document.getElementById('finalGuess').style.display = 'block';
+      } else {
+        resultTitle.textContent = '😈 Schwindler gewinnt! / Faker Wins!';
+        resultTitle.className = 'result-title failure';
+        resultMessage.textContent = `Falsch! / Wrong! ${this.players[mostVoted]} war unschuldig / was innocent. ${this.players[this.fakeArtistIndex]} war der Schwindler! / was the faker!`;
+        document.getElementById('finalResult').style.display = 'block';
+        document.getElementById('finalResultTitle').textContent = 'Das Wort war: / The word was:';
+        document.getElementById('finalResultMessage').textContent = `${this.secretWord.de} / ${this.secretWord.en}`;
+      }
     }
   }
 
@@ -283,19 +334,19 @@ class Game {
     document.getElementById('finalGuess').style.display = 'none';
     document.getElementById('finalResult').style.display = 'block';
 
-    if (guess === this.secretWord.toLowerCase()) {
-      document.getElementById('finalResultTitle').textContent = '🎊 Schwindler triumphiert!';
+    if (guess === this.secretWord.de.toLowerCase() || guess === this.secretWord.en.toLowerCase()) {
+      document.getElementById('finalResultTitle').textContent = '🎊 Schwindler triumphiert! / Faker Triumphs!';
       document.getElementById('finalResultTitle').className = 'success';
-      document.getElementById('finalResultMessage').textContent = `Richtig! Es war: ${this.secretWord}`;
+      document.getElementById('finalResultMessage').textContent = `Richtig! Es war: / Correct! It was: ${this.secretWord.de} / ${this.secretWord.en}`;
     } else {
-      document.getElementById('finalResultTitle').textContent = '🏆 Künstler gewinnen!';
+      document.getElementById('finalResultTitle').textContent = '🏆 Künstler gewinnen! / Artists Win!';
       document.getElementById('finalResultTitle').className = 'success';
-      document.getElementById('finalResultMessage').textContent = `Falsch! Es war: ${this.secretWord}`;
+      document.getElementById('finalResultMessage').textContent = `Falsch! Es war: / Wrong! It was: ${this.secretWord.de} / ${this.secretWord.en}`;
     }
   }
 
   reset() {
-    this.players = [];
+    // Keep existing players, don't clear the array
     this.currentCategory = '';
     this.secretWord = '';
     this.fakeArtistIndex = -1;
@@ -310,25 +361,59 @@ class Game {
     this.isDrawing = false;
     this.hasDrawnThisTurn = false;
 
+    // Reset all UI elements
     document.querySelectorAll('.category-btn').forEach(btn => {
       btn.classList.remove('selected');
     });
+    document.querySelectorAll('.vote-btn').forEach(btn => {
+      btn.classList.remove('voted');
+    });
+    
+    // Reset result screens - check if elements exist first
     const finalGuess = document.getElementById('finalGuess');
     const finalResult = document.getElementById('finalResult');
     const guessInput = document.getElementById('guessInput');
     const revealBtn = document.getElementById('revealBtn');
+    const voteConfirmation = document.getElementById('voteConfirmation');
     
     if (finalGuess) finalGuess.style.display = 'none';
     if (finalResult) finalResult.style.display = 'none';
     if (guessInput) guessInput.value = '';
     if (revealBtn) revealBtn.style.display = 'none';
+    if (voteConfirmation) voteConfirmation.style.display = 'none';
+    
+    // Reset result titles and messages
+    const resultTitle = document.getElementById('resultTitle');
+    const resultMessage = document.getElementById('resultMessage');
+    const finalResultTitle = document.getElementById('finalResultTitle');
+    const finalResultMessage = document.getElementById('finalResultMessage');
+    
+    if (resultTitle) resultTitle.className = 'result-title';
+    if (resultMessage) resultMessage.textContent = '';
+    if (finalResultTitle) {
+      finalResultTitle.textContent = '';
+      finalResultTitle.className = '';
+    }
+    if (finalResultMessage) finalResultMessage.textContent = '';
 
+    // Reset voting system
     if (voting) {
       voting.reset();
     }
 
+    // Clear any canvas content if exists
+    if (this.canvas && this.ctx) {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    if (this.votingCanvas && this.votingCtx) {
+      this.votingCtx.clearRect(0, 0, this.votingCanvas.width, this.votingCanvas.height);
+    }
+
+    // Reset to setup screen
     this.showScreen('setupScreen');
     this.updatePlayerList();
     this.checkStartButton();
+    
+    console.log('Reset complete. Players:', this.players.length);
   }
 }
