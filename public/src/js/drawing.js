@@ -30,8 +30,6 @@ class DrawingCanvas {
 
   getCoordinates(e) {
     const rect = this.game.canvas.getBoundingClientRect();
-    const scaleX = this.game.canvas.width / rect.width;
-    const scaleY = this.game.canvas.height / rect.height;
     
     let clientX, clientY;
     
@@ -52,9 +50,9 @@ class DrawingCanvas {
       return { x: null, y: null };
     }
     
-    // Ensure coordinates are within canvas bounds
-    const x = Math.max(0, Math.min((clientX - rect.left) * scaleX, this.game.canvas.width));
-    const y = Math.max(0, Math.min((clientY - rect.top) * scaleY, this.game.canvas.height));
+    // Convert to canvas coordinates (no scaling needed as context is already scaled)
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const y = Math.max(0, Math.min(clientY - rect.top, rect.height));
     
     return { x, y };
   }
