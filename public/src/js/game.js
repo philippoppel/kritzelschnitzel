@@ -172,30 +172,34 @@ class Game {
     const devicePixelRatio = window.devicePixelRatio || 1;
     const rect = this.canvas.getBoundingClientRect();
     
+    // Determine canvas height based on device (iPad gets larger canvas)
+    const canvasHeight = this.isIPad() ? 400 : 300;
+    
     // Set actual canvas size in memory (scaled up for retina)
     this.canvas.width = rect.width * devicePixelRatio;
-    this.canvas.height = 300 * devicePixelRatio;
+    this.canvas.height = canvasHeight * devicePixelRatio;
     
     // Scale canvas back down using CSS for display
     this.canvas.style.width = rect.width + 'px';
-    this.canvas.style.height = '300px';
+    this.canvas.style.height = canvasHeight + 'px';
     
     // Scale the drawing context so drawing operations are automatically scaled
     this.ctx.scale(devicePixelRatio, devicePixelRatio);
 
-    // Optimize canvas for drawing
-    this.ctx.lineWidth = 3;
+    // Optimize canvas for drawing with iPad-specific enhancements
+    const baseLineWidth = this.isIPad() ? 4 : 3;
+    this.ctx.lineWidth = baseLineWidth;
     this.ctx.lineCap = 'round';
     this.ctx.lineJoin = 'round';
     this.ctx.strokeStyle = this.selectedColor;
     
-    // Better quality settings for mobile Safari
+    // Better quality settings for mobile Safari and iPad
     this.ctx.imageSmoothingEnabled = true;
     this.ctx.imageSmoothingQuality = 'high';
 
     // Clear canvas with white background
     this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(0, 0, rect.width, 300);
+    this.ctx.fillRect(0, 0, rect.width, canvasHeight);
   }
 
   updateTurnIndicator() {
@@ -247,15 +251,16 @@ class Game {
     // Match the original canvas dimensions and scaling
     const devicePixelRatio = window.devicePixelRatio || 1;
     const rect = this.votingCanvas.getBoundingClientRect();
+    const canvasHeight = this.isIPad() ? 400 : 300;
     
     this.votingCanvas.width = rect.width * devicePixelRatio;
-    this.votingCanvas.height = 300 * devicePixelRatio;
+    this.votingCanvas.height = canvasHeight * devicePixelRatio;
     
     this.votingCanvas.style.width = rect.width + 'px';
-    this.votingCanvas.style.height = '300px';
+    this.votingCanvas.style.height = canvasHeight + 'px';
     
     this.votingCtx.scale(devicePixelRatio, devicePixelRatio);
-    this.votingCtx.drawImage(this.canvas, 0, 0, rect.width, 300);
+    this.votingCtx.drawImage(this.canvas, 0, 0, rect.width, canvasHeight);
 
     this.votes = {};
     this.voteCount = 0;
@@ -415,5 +420,11 @@ class Game {
     this.checkStartButton();
     
     console.log('Reset complete. Players:', this.players.length);
+  }
+  
+  // Helper method to detect iPad
+  isIPad() {
+    return /iPad/.test(navigator.userAgent) || 
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   }
 }
